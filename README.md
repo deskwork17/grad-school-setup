@@ -42,6 +42,4 @@ The hook and slash command above assume a directory shaped roughly like this (no
 
 The setup this was extracted from lives in a private repository that also holds actual coursework readings, a citation-library PDF mirror, and in-progress thesis notes — most of that is either someone else's copyrighted work (assigned readings, journal articles) or personal academic work not meant for public redistribution. This repo exists so the *mechanism* — the instructions, hooks, skills, and commands — can be reused without any of that content coming along for the ride.
 
----
-
-*Companion project: [soc-methods-handout](https://github.com/deskwork17/soc-methods-handout) — a narrative handout covering the same setup, written for a methods-seminar audience.*
+This is the only public repo for this setup — an earlier, separate `soc-methods-handout` repo covered the same material and has been retired in favor of keeping everything here.
