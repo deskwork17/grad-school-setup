@@ -1,0 +1,28 @@
+# rclone exclude file for the Google Drive mirror described in SETUP.md.
+#
+# Point of this file: keep the Drive mirror's exclusions roughly matched to
+# your .gitignore, EXCEPT for files that are too large for GitHub (>100MB) —
+# leave those OUT of this list so Drive (which has no size cap) still gets
+# them. Copy this to .claude/rclone-exclude.txt and edit for your own repo.
+
+.git/**
+.claude/**
+
+# Editor/IDE caches, build artifacts, anything else your .gitignore excludes
+# for being regenerable rather than source content:
+# **/.Rproj.user/**
+# node_modules/**
+
+# Anything sensitive that should never leave this machine or its backups —
+# match these to your .gitignore's own sensitive-file exclusions:
+# grant stuff/*.pdf
+# secrets/**
+
+# A large file this machine doesn't have a local copy of should NOT be
+# excluded here just because it's missing locally — that's backwards, and
+# it's exactly the mistake that argues for `rclone copy` over `rclone sync`
+# in the first place (see SETUP.md's "backup & sync infrastructure" section,
+# and the slide deck's "lesson learned" slide, for the incident that
+# prompted that rule). Only list a big Drive-only file here if THIS
+# machine genuinely never has, and never will have, its own local copy:
+# Zotero/some-huge-file-too-big-for-github.pdf

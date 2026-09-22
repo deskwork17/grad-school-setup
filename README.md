@@ -4,21 +4,26 @@ A working example of configuring [Claude Code](https://claude.com/claude-code) t
 
 ## Start here
 
-Everything meant to be read is in **[`README/`](README/)**:
+Two ways into this, depending on how hands-on you want to be:
 
-- **`Using Claude Code in the Social Sciences.pptx`** — a slide-deck walkthrough of the whole setup: file structure, standing instructions, skills, slash commands, hooks, version control, and the cross-machine sync layer.
-- **`claude-setup-guide.md`** — hand this file to your own Claude (Claude Code, or an equivalent Claude with file/terminal access). It will interview you about your own workflow and build only the pieces that actually fit, rather than replicating this setup wholesale.
+- **Let your own Claude drive:** hand it **[`README/claude-setup-guide.md`](README/claude-setup-guide.md)**. It interviews you about your own workflow first and builds only the pieces that fit, rather than replicating this setup wholesale.
+- **Do it yourself, or follow along with the literal steps:** **[`SETUP.md`](SETUP.md)** is the actual reference — real commands, in order, for the hooks/skills/commands, the Zotero and Obsidian MCP servers, and the Git + Google Drive backup layer.
+- **See it explained first:** **[`README/Using Claude Code in the Social Sciences.pptx`](README/Using%20Claude%20Code%20in%20the%20Social%20Sciences.pptx)** is a slide-deck walkthrough of the whole setup, including the "lesson learned" incident that shaped the backup rules in `SETUP.md`.
 
 ## What's in this repo
 
 | Path | What it is |
 |---|---|
 | `CLAUDE.md` | Portable standing instructions — drop into `~/.claude/CLAUDE.md` (or adapt into a project-level `CLAUDE.md`) to replicate the behavioral rules this setup runs on. |
+| `SETUP.md` | Step-by-step reference for everything below: hooks, skills, commands, MCP servers, and the backup/sync layer. |
 | `.claude/hooks/session_start_sync.py` | A SessionStart hook: checks GitHub, a Google Drive mirror, and for new PDFs at the start of every session, and reports all three every time. |
 | `.claude/commands/end.md` | A `/end` slash command that reconciles a citation library, updates setup docs, logs the session, and pushes/backs up — one command instead of six manual steps. |
 | `.claude/skills/sanitize-document/SKILL.md` | A skill that strips hidden metadata from a document before it's shared, without Claude ever reading the file's contents. |
 | `.claude/settings.local.json.example` | Shows how the hook above gets registered — copy to `.claude/settings.local.json` and adjust. |
+| `.claude/rclone-exclude.txt.example` | Template exclude list for the Google Drive mirror — copy to `.claude/rclone-exclude.txt` and edit. |
 | `Tools/sanitize_doc.py` | The script the sanitize-document skill runs. |
+
+MCP servers (Zotero, Obsidian) aren't files you copy — they're covered in `SETUP.md` section 3 as install + registration commands.
 
 ## The folder-structure convention this setup assumes
 
