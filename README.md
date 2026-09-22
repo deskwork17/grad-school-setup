@@ -19,6 +19,7 @@ Two ways into this, depending on how hands-on you want to be:
 | `.claude/hooks/session_start_sync.py` | A SessionStart hook: checks GitHub, a Google Drive mirror, and for new PDFs at the start of every session, and reports all three every time. |
 | `.claude/commands/end.md` | A `/end` slash command that reconciles a citation library, updates setup docs, logs the session, and pushes/backs up — one command instead of six manual steps. |
 | `.claude/skills/sanitize-document/SKILL.md` | A skill that strips hidden metadata from a document before it's shared, without Claude ever reading the file's contents. |
+| `.claude/skills/pdf-research-workflow/SKILL.md` | A skill for reading/organizing/naming/OCR'ing PDF research sources — global in the source setup, not project-scoped. Its OCR/PDF→Markdown commands are a worked example (Tesseract + pymupdf4llm); swap for your own tools. |
 | `.claude/settings.local.json.example` | Shows how the hook above gets registered — copy to `.claude/settings.local.json` and adjust. |
 | `.claude/rclone-exclude.txt.example` | Template exclude list for the Google Drive mirror — copy to `.claude/rclone-exclude.txt` and edit. |
 | `Tools/sanitize_doc.py` | The script the sanitize-document skill runs. |

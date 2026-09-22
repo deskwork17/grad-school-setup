@@ -41,17 +41,8 @@
 
 *(Start this section empty and let it grow — see "Tool installs" above. This is a living log of what's actually installed on each machine, not a fixed list to copy.)*
 
-# PDF folder organization ("mk" subfolders)
-
-- Whenever moving, altering, or reorganizing the PDFs in a folder, ensure that folder has a sibling subfolder named "<folder name> mk" (e.g. `References` → `References mk`).
-- That mk subfolder must contain a Markdown copy (via a PDF-to-Markdown tool) of every PDF in the parent folder, matched by filename and kept in sync with the parent folder's contents.
-
 # Reading documents
 
 - When told to read a document, read it in full — every page, start to finish. Never guess, skim, or infer content from a filename, abstract, or partial read. If a document exceeds what a single read covers, read it in successive page ranges until the entire document has been covered.
 - After finishing, explicitly verify full coverage before answering questions about the document (e.g. confirm the total page count read matches the document's total page count).
-- Exception, to save tokens on research reads specifically: before reading a PDF for research, check whether its folder has a companion "<folder> mk" subfolder with a matching Markdown file. If one exists, read that Markdown file instead (still in full, same verification rule applies). If no mk copy exists, read the PDF directly.
-
-# Research file naming
-
-- When asked to organize research documents, name/rename files using the format: `Last Name, First Name, Title, Year` (e.g. `Smith, John, The Structure of Scientific Revolutions, 1962.pdf`). If the author, title, or year can't be confidently determined from the document itself, ask rather than guess.
+- Exception for PDF research sources specifically (companion Markdown transcripts, the "mk" subfolder convention, a naming convention, OCR): see the `pdf-research-workflow` skill in `.claude/skills/`, not a rule here — it only needs to load into context for tasks that actually touch a PDF, not every session.
