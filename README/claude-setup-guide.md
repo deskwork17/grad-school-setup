@@ -4,7 +4,7 @@
 
 This is not documentation to read — it's a script for **your own Claude** (Claude Code, or another Claude with file and shell access on your machine) to read and act on. It was adapted from a working setup built for a sociology graduate student's thesis and coursework directory, documented in a companion handout ("Using Claude Code in the Social Sciences").
 
-The point isn't to copy that setup wholesale. Everyone's research workflow is different — different file types, different comfort with the command line, different backup needs, different sensitivity around data. This file instead has your Claude **interview you** about your own workflow, then build only the pieces that actually fit.
+The point isn't to copy that setup wholesale. Everyone's research workflow is different — different file types, different comfort with the command line, different backup needs, different sensitivity around data. This file instead has your Claude **interview you** about your own workflow, then build only the pieces that actually fit. Most of the questions below are general (section A–F); section G asks about the specific named pieces of the source setup — Zotero, Obsidian, a document sanitizer, OCR'd PDFs, a Google Drive mirror — by name, since it's easier to say "yes, I use Zotero too" than to recognize your own tools inside an abstract category.
 
 **Prerequisite:** this requires Claude Code (or an equivalent Claude environment with file/terminal access) already installed on your machine. If you don't have that yet, get it set up first — this file can't install itself.
 
@@ -54,7 +54,17 @@ If at any point their answers suggest none of this is a good fit for how they wo
 - What operating system(s) are you on? (This matters — install commands and file paths differ between Windows, macOS, and Linux, and a setup built for one won't directly copy to another.)
 - How comfortable are you installing and running command-line tools?
 
-### G. Sensitive data — ask this explicitly, don't skip it
+### G. Specific pieces of the source setup — ask about each by name
+The source setup (see `SETUP.md` in this repo for the literal commands behind each of these) has several named integrations. Ask about each rather than assuming section C already covered it — someone won't necessarily think to mention "Zotero" in answer to an abstract question about repeatable tasks.
+
+- **Reference manager.** Do you use Zotero, or another reference/citation manager? If Zotero: would it help to have Claude search, read, and cite directly from your library instead of copy-pasting? (`SETUP.md` section 3 has the MCP setup — it works in "Web API mode," reading your real library from zotero.org, so it doesn't need a local Zotero install running and synced.)
+- **Notes app.** Do you keep research or thesis notes in Obsidian, or a similar notes app? Want Claude to read and write notes there directly, rather than notes living only in chat? (Also `SETUP.md` section 3 — needs the notes app open with a plugin enabled, not just installed.)
+- **Sharing documents externally.** Do you ever send documents outside your research group — drafts, grant materials, reviewer copies — where hidden metadata, tracked changes, or leftover comments could be a problem if they went out unnoticed? The source setup has a ready-to-copy skill for this (`.claude/skills/sanitize-document/`) that strips that information via a script, without Claude ever reading the document's actual content.
+- **Scanned or image-only PDFs, and citation naming.** Do you work with scanned/handwritten sources that need OCR before they're searchable? Want a consistent renaming convention for sources (e.g. `Last Name, First Name, Title, Year`), and a parallel folder of Markdown transcripts so a document can be read as text without reopening the PDF each time? This isn't a packaged file in this repo — it's OCR/PDF-to-text tooling plus a couple of `CLAUDE.md` rules (see the slide deck's "Skills" section for the pattern) — but it's worth asking about if PDFs are a big part of the work.
+- **A read-integrity check.** Would it help to have Claude periodically forced to stop and confirm it actually read the last few source documents in full, rather than skimming or guessing at their content? Useful specifically for research, where getting a source's content wrong is a bigger problem than in casual use. Flag this as a "would this help" question, not a guaranteed build — it depends on what's available in your own Claude environment.
+- **Backup specifics.** If section E said yes to a cloud mirror: do you specifically want the rclone-to-Google-Drive approach this setup uses? If so, `SETUP.md` section 4 has the exact commands — including a real incident where an earlier `rclone sync` deleted a file, and why the fix was switching to `rclone copy` everywhere. Worth reading before setting this part up even if you already know rclone.
+
+### H. Sensitive data — ask this explicitly, don't skip it
 - Does any of this work involve data that must never leave your machine or be backed up anywhere outside it — IRB-protected human-subjects data, identifiable interview material, anything under a data use agreement, or anything else confidential? If yes, get specific about which files or folders, so they can be explicitly excluded from *any* backup or sync step set up below, before any backup is configured.
 
 ---
@@ -65,18 +75,22 @@ Offer these conditionally, matched to what was actually said above — don't set
 
 1. **A standing preferences file** (a `CLAUDE.md`-equivalent). Always worth offering — lowest effort, biggest payoff, just a text file capturing how they want Claude to work so it doesn't need to be re-explained every session.
 2. **Skills** for any recurring task named in section C. One skill per distinct task; don't invent one that wasn't asked for.
-3. **Automatic checks (hooks)** — only if section D indicated they want this. Explain plainly that this is optional machinery, not something everyone needs.
-4. **A session wrap-up command** — only if section D indicated they want a routine, repeatable end-of-session step.
-5. **Git-based version control** — only if section E indicated they want it. If section G flagged sensitive files, make sure those are excluded (`.gitignore` or equivalent) from the very first commit, not added after the fact.
-6. **A cloud backup mirror** — only if section E indicated wanting a second backup, using whichever service they already have rather than pushing a new one on them. Same sensitive-data exclusions as above apply here too.
-7. **Cross-machine sync** (a startup check that pulls updates, a log of what happened each session) — only if section E indicated they actually work across multiple machines. Skip entirely for a single-machine setup; it solves a problem they don't have.
+3. **The document-sanitizer skill** — only if section G said yes to sharing documents externally. Copy `.claude/skills/sanitize-document/` and `Tools/sanitize_doc.py` from this repo as-is; it doesn't need adapting.
+4. **Zotero MCP integration** — only if section G named Zotero. `SETUP.md` section 3 has the install and registration commands.
+5. **Obsidian MCP integration** — only if section G named Obsidian (or offer to look up the equivalent for whatever notes app they actually use, if it has one). `SETUP.md` section 3, same as above.
+6. **An OCR + Markdown-transcript + naming-convention pattern** — only if section G indicated PDFs, especially scanned ones, are a real part of the work. This one has to be built to match their actual tools (OCR engine, PDF library) rather than copied, since nothing in this repo packages it as a file — treat it as a pattern to reproduce, not a template to install.
+7. **Automatic checks (hooks)** — only if section D indicated they want this. Explain plainly that this is optional machinery, not something everyone needs.
+8. **A session wrap-up command** — only if section D indicated they want a routine, repeatable end-of-session step. `.claude/commands/end.md` in this repo is a working example to adapt — it's written around Zotero + Obsidian specifically, so strip or replace the parts that don't apply.
+9. **Git-based version control** — only if section E indicated they want it. If section H flagged sensitive files, make sure those are excluded (`.gitignore` or equivalent) from the very first commit, not added after the fact.
+10. **A cloud backup mirror** — only if section E indicated wanting a second backup. If section G said they specifically want the rclone/Google-Drive approach, `SETUP.md` section 4 has the exact commands and the reasoning behind `copy` vs. `sync`; otherwise use whichever service they already have. Same sensitive-data exclusions as above apply here too.
+11. **Cross-machine sync** (a startup check that pulls updates, a log of what happened each session) — only if section E indicated they actually work across multiple machines. Skip entirely for a single-machine setup; it solves a problem they don't have.
 
 ---
 
 ## Safety rules to carry over, not optional
 
 - Never install software, create an account, generate an API key, or set up a git remote/cloud connection without telling the person first and getting a clear yes.
-- Never include a file flagged in section G in any backup, sync, or cloud step, under any circumstance.
+- Never include a file flagged in section H in any backup, sync, or cloud step, under any circumstance.
 - Prefer reversible actions over destructive ones (e.g., send a file to the recycle bin/trash rather than deleting it permanently) when cleaning anything up.
 - Don't assume a specific operating system's paths or install commands — confirm the OS from section F before writing anything platform-specific.
 
